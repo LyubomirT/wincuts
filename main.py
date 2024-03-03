@@ -1,10 +1,11 @@
 import sys
 import csv
+import datetime
 from PySide2.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu, QAction, QLabel, QLineEdit, QPushButton, QListWidget, QListWidgetItem, QMessageBox, QVBoxLayout, QWidget
 from PySide2.QtGui import QIcon
 from keyboard import add_hotkey, wait
 from threading import Thread
-import datetime
+import subprocess
 
 class ShortcutManager:
     def __init__(self):
@@ -31,9 +32,10 @@ class ShortcutManager:
         del self.shortcuts[index]
 
 class ShortcutEditor(QWidget):
-    def __init__(self, shortcut_manager):
+    def __init__(self, shortcut_manager, main_window):
         super().__init__()
         self.shortcut_manager = shortcut_manager
+        self.main_window = main_window
         self.initUI()
 
     def initUI(self):
@@ -72,6 +74,7 @@ class ShortcutEditor(QWidget):
 
         # Add the shortcut
         self.shortcut_manager.add_shortcut(keys, command)
+        self.main_window.listen_shortcut(keys, command)  # Listen to the new shortcut
         self.list_shortcuts()
 
     def delete_shortcut(self):
@@ -86,6 +89,7 @@ class ShortcutEditor(QWidget):
         for keys, command in self.shortcut_manager.shortcuts:
             item = QListWidgetItem(f"{keys} -> {command}")
             self.listwidget_shortcuts.addItem(item)
+
 
 class MainWindow(QMainWindow):
     def __init__(self, shortcut_manager):
@@ -117,11 +121,12 @@ class MainWindow(QMainWindow):
         self.tray_icon.show()
 
         # Set up shortcut editor
-        self.shortcut_editor = ShortcutEditor(self.shortcut_manager)
+        self.shortcut_editor = ShortcutEditor(self.shortcut_manager, self)
         self.setCentralWidget(self.shortcut_editor)
 
         # Load shortcuts
         self.shortcut_manager.load_shortcuts("validated.dat")
+        self.shortcut_editor.list_shortcuts()  # Ensure shortcuts are listed
 
         # Start listening for shortcuts
         self.listen_shortcuts()
@@ -139,10 +144,17 @@ class MainWindow(QMainWindow):
         reset_ansi = "\u001b[0m"
         # [ DATETIME ] Executing command: [ COMMAND ]
         print(f"{green_ansi}[{datetime.datetime.now()}]{reset_ansi} Executing command: {command}")
+        # Execute the command here
+        subprocess.run(command, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
 
     def listen_shortcuts(self):
         for keys, command in self.shortcut_manager.shortcuts:
-            add_hotkey(keys, lambda: self.execute_command(command))
+            add_hotkey(keys, lambda cmd=command: self.execute_command(cmd))
+
+    def listen_shortcut(self, keys, command):
+        add_hotkey(keys, lambda cmd=command: self.execute_command(cmd))
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
