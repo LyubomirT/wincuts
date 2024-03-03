@@ -3,7 +3,7 @@ import csv
 import datetime
 from PySide2.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu, QAction, QLabel, QLineEdit, QPushButton, QListWidget, QListWidgetItem, QMessageBox, QVBoxLayout, QWidget
 from PySide2.QtGui import QIcon
-from keyboard import add_hotkey, wait
+from keyboard import add_hotkey, remove_hotkey, wait
 from threading import Thread
 import subprocess
 
@@ -153,6 +153,7 @@ class MainWindow(QMainWindow):
             add_hotkey(keys, lambda cmd=command: self.execute_command(cmd))
 
     def listen_shortcut(self, keys, command):
+        remove_hotkey(keys)  # Remove old hotkey binding
         add_hotkey(keys, lambda cmd=command: self.execute_command(cmd))
 
 
