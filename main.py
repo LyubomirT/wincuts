@@ -4,6 +4,7 @@ from PySide2.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu,
 from PySide2.QtGui import QIcon
 from keyboard import add_hotkey, wait
 from threading import Thread
+import datetime
 
 class ShortcutManager:
     def __init__(self):
@@ -134,8 +135,10 @@ class MainWindow(QMainWindow):
         QApplication.quit()
 
     def execute_command(self, command):
-        # Implement command execution logic here
-        print("Executing command:", command)
+        green_ansi = "\u001b[32m"
+        reset_ansi = "\u001b[0m"
+        # [ DATETIME ] Executing command: [ COMMAND ]
+        print(f"{green_ansi}[{datetime.datetime.now()}]{reset_ansi} Executing command: {command}")
 
     def listen_shortcuts(self):
         for keys, command in self.shortcut_manager.shortcuts:
