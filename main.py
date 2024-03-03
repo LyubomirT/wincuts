@@ -153,7 +153,10 @@ class MainWindow(QMainWindow):
             add_hotkey(keys, lambda cmd=command: self.execute_command(cmd))
 
     def listen_shortcut(self, keys, command):
-        remove_hotkey(keys)  # Remove old hotkey binding
+        try:
+            remove_hotkey(keys)  # Remove old hotkey binding if exists
+        except KeyError:
+            pass
         add_hotkey(keys, lambda cmd=command: self.execute_command(cmd))
 
 
