@@ -147,18 +147,21 @@ class MainWindow(QMainWindow):
         # Execute the command here
         subprocess.run(command, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-
     def listen_shortcuts(self):
         for keys, command in self.shortcut_manager.shortcuts:
-            add_hotkey(keys, lambda cmd=command: self.execute_command(cmd))
+            add_hotkey(keys, self.get_execute_command_function(command))
 
     def listen_shortcut(self, keys, command):
         try:
             remove_hotkey(keys)  # Remove old hotkey binding if exists
         except KeyError:
             pass
-        add_hotkey(keys, lambda cmd=command: self.execute_command(cmd))
+        add_hotkey(keys, self.get_execute_command_function(command))
 
+    def get_execute_command_function(self, command):
+        def execute():
+            self.execute_command(command)
+        return execute
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
