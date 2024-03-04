@@ -1,7 +1,7 @@
 import sys
 import csv
 import datetime
-from PySide2.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu, QAction, QLabel, QLineEdit, QPushButton, QListWidget, QListWidgetItem, QMessageBox, QVBoxLayout, QWidget
+from PySide2.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu, QAction, QLabel, QLineEdit, QPushButton, QListWidget, QListWidgetItem, QMessageBox, QVBoxLayout, QWidget, QCheckBox
 from PySide2.QtGui import QIcon
 from keyboard import add_hotkey, remove_hotkey, wait
 from threading import Thread
@@ -25,8 +25,8 @@ class ShortcutManager:
             writer = csv.writer(file)
             writer.writerows(self.shortcuts)
 
-    def add_shortcut(self, keys, command):
-        self.shortcuts.append([keys, command])
+    def add_shortcut(self, keys, command, open_in_window):
+        self.shortcuts.append([keys, command, open_in_window])
 
     def delete_shortcut(self, index):
         del self.shortcuts[index]
@@ -46,6 +46,8 @@ class ShortcutEditor(QWidget):
         self.lineedit_keys = QLineEdit()
         self.label_command = QLabel("Command:")
         self.lineedit_command = QLineEdit()
+        self.label_open_in_window = QLabel("Open in Window:")
+        self.checkbox_open_in_window = QCheckBox()
         self.button_set_shortcut = QPushButton("Set Shortcut")
         self.button_set_shortcut.clicked.connect(self.set_shortcut)
 
@@ -59,6 +61,8 @@ class ShortcutEditor(QWidget):
         layout.addWidget(self.lineedit_keys)
         layout.addWidget(self.label_command)
         layout.addWidget(self.lineedit_command)
+        layout.addWidget(self.label_open_in_window)
+        layout.addWidget(self.checkbox_open_in_window)
         layout.addWidget(self.button_set_shortcut)
         layout.addWidget(self.listwidget_shortcuts)
         layout.addWidget(self.button_delete_shortcut)
@@ -68,13 +72,14 @@ class ShortcutEditor(QWidget):
     def set_shortcut(self):
         keys = self.lineedit_keys.text()
         command = self.lineedit_command.text()
+        open_in_window = self.checkbox_open_in_window.isChecked()
         if keys.strip() == "" or command.strip() == "":
             QMessageBox.critical(self, "Error", "Please enter keys and command.")
             return
 
         # Add the shortcut
-        self.shortcut_manager.add_shortcut(keys, command)
-        self.main_window.listen_shortcut(keys, command)  # Listen to the new shortcut
+        self.shortcut_manager.add_shortcut(keys, command, open_in_window)
+        self.main_window.listen_shortcut(keys, command, open_in_window)  # Listen to the new shortcut
         self.list_shortcuts()
 
     def delete_shortcut(self):
@@ -86,8 +91,8 @@ class ShortcutEditor(QWidget):
 
     def list_shortcuts(self):
         self.listwidget_shortcuts.clear()
-        for keys, command in self.shortcut_manager.shortcuts:
-            item = QListWidgetItem(f"{keys} -> {command}")
+        for keys, command, open_in_window in self.shortcut_manager.shortcuts:
+            item = QListWidgetItem(f"{keys} -> {command} {'[Open in Window]' if open_in_window else ''}")
             self.listwidget_shortcuts.addItem(item)
 
 
@@ -139,28 +144,31 @@ class MainWindow(QMainWindow):
         self.shortcut_manager.save_shortcuts("validated.dat")
         QApplication.quit()
 
-    def execute_command(self, command):
+    def execute_command(self, command, open_in_window):
         green_ansi = "\u001b[32m"
         reset_ansi = "\u001b[0m"
         # [ DATETIME ] Executing command: [ COMMAND ]
         print(f"{green_ansi}[{datetime.datetime.now()}]{reset_ansi} Executing command: {command}")
         # Execute the command here
-        subprocess.run(command, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        if open_in_window:
+            subprocess.Popen(command, shell=True)
+        else:
+            subprocess.run(command, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     def listen_shortcuts(self):
-        for keys, command in self.shortcut_manager.shortcuts:
-            add_hotkey(keys, self.get_execute_command_function(command))
+        for keys, command, open_in_window in self.shortcut_manager.shortcuts:
+            add_hotkey(keys, self.get_execute_command_function(command, open_in_window))
 
-    def listen_shortcut(self, keys, command):
+    def listen_shortcut(self, keys, command, open_in_window):
         try:
             remove_hotkey(keys)  # Remove old hotkey binding if exists
         except KeyError:
             pass
-        add_hotkey(keys, self.get_execute_command_function(command))
+        add_hotkey(keys, self.get_execute_command_function(command, open_in_window))
 
-    def get_execute_command_function(self, command):
+    def get_execute_command_function(self, command, open_in_window):
         def execute():
-            self.execute_command(command)
+            self.execute_command(command, open_in_window)
         return execute
 
 if __name__ == "__main__":
