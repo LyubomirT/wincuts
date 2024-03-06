@@ -1,11 +1,10 @@
 import sys
 import csv
 import datetime
-from PySide2.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu, QAction, QLabel, QLineEdit, QPushButton, QListWidget, QListWidgetItem, QMessageBox, QVBoxLayout, QWidget, QCheckBox
+from PySide2.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu, QAction, QLabel, QLineEdit, QPushButton, QListWidget, QListWidgetItem, QMessageBox, QVBoxLayout, QWidget, QCheckBox, QHBoxLayout
 from PySide2.QtGui import QIcon
-from keyboard import add_hotkey, remove_hotkey, wait
-from threading import Thread
 import subprocess
+from keyboard import add_hotkey, remove_hotkey
 
 class ShortcutManager:
     def __init__(self):
@@ -50,6 +49,13 @@ class ShortcutEditor(QWidget):
         self.lineedit_command = QLineEdit()
         self.label_open_in_window = QLabel("Window Patch (experimental):")
         self.checkbox_open_in_window = QCheckBox()
+
+        # Horizontal layout for the checkbox and label
+        checkbox_layout = QHBoxLayout()
+        checkbox_layout.addWidget(self.label_open_in_window)
+        checkbox_layout.addWidget(self.checkbox_open_in_window)
+        checkbox_layout.addStretch()
+
         self.button_set_shortcut = QPushButton("Set Shortcut")
         self.button_set_shortcut.clicked.connect(self.set_shortcut)
 
@@ -63,8 +69,7 @@ class ShortcutEditor(QWidget):
         layout.addWidget(self.lineedit_keys)
         layout.addWidget(self.label_command)
         layout.addWidget(self.lineedit_command)
-        layout.addWidget(self.label_open_in_window)
-        layout.addWidget(self.checkbox_open_in_window)
+        layout.addLayout(checkbox_layout)  # Adding the horizontal layout
         layout.addWidget(self.button_set_shortcut)
         layout.addWidget(self.listwidget_shortcuts)
         layout.addWidget(self.button_delete_shortcut)
