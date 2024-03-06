@@ -16,7 +16,9 @@ class ShortcutManager:
             with open(file_name, 'r', newline='') as file:
                 reader = csv.reader(file)
                 for row in reader:
-                    self.shortcuts.append(row)
+                    keys, command, open_in_window_str = row
+                    open_in_window = open_in_window_str.lower() == 'true'
+                    self.shortcuts.append([keys, command, open_in_window])
         except FileNotFoundError:
             pass
 
