@@ -151,7 +151,7 @@ class MainWindow(QMainWindow):
         print(f"{green_ansi}[{datetime.datetime.now()}]{reset_ansi} Executing command: {command}")
         # Execute the command here
         if open_in_window:
-            subprocess.Popen(command, shell=True)
+            subprocess.call('start ' + command, shell=True)
         else:
             subprocess.run(command, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
