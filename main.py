@@ -41,7 +41,8 @@ class ShortcutEditor(QWidget):
 
     def initUI(self):
         self.setWindowTitle("Shortcut Editor")
-        self.setGeometry(100, 100, 400, 300)
+        self.setMinimumSize(400, 300)  # Minimum size restriction
+        self.resize(600, 400)  # Default size
 
         self.label_keys = QLabel("Keys:")
         self.lineedit_keys = QLineEdit()
@@ -111,7 +112,8 @@ class MainWindow(QMainWindow):
 
     def initUI(self):
         self.setWindowTitle("Shortcut Manager")
-        self.setGeometry(100, 100, 400, 300)
+        self.setMinimumSize(400, 300)  # Minimum size restriction
+        self.resize(400, 300)  # Default size
 
         # Create a system tray icon
         self.tray_icon = QSystemTrayIcon(self)
