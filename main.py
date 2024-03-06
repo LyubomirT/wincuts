@@ -1,9 +1,8 @@
 import sys
 import csv
 import datetime
-from PySide2.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu, QAction, QLabel, QLineEdit, QPushButton, QListWidget, QListWidgetItem, QMessageBox, QVBoxLayout, QWidget, QCheckBox, QGridLayout
+from PySide2.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu, QAction, QLabel, QLineEdit, QPushButton, QListWidget, QListWidgetItem, QMessageBox, QVBoxLayout, QWidget, QCheckBox
 from PySide2.QtGui import QIcon
-from PySide2.QtCore import Qt
 from keyboard import add_hotkey, remove_hotkey, wait
 from threading import Thread
 import subprocess
@@ -59,7 +58,6 @@ class ShortcutEditor(QWidget):
         self.button_delete_shortcut = QPushButton("Delete Shortcut")
         self.button_delete_shortcut.clicked.connect(self.delete_shortcut)
 
-        # Replace the following lines in your ShortcutEditor class
         layout = QVBoxLayout()
         layout.addWidget(self.label_keys)
         layout.addWidget(self.lineedit_keys)
@@ -71,21 +69,7 @@ class ShortcutEditor(QWidget):
         layout.addWidget(self.listwidget_shortcuts)
         layout.addWidget(self.button_delete_shortcut)
 
-        # With these lines
-        layout = QGridLayout()
-        layout.addWidget(self.label_keys, 0, 0)
-        layout.addWidget(self.lineedit_keys, 1, 0)
-        layout.addWidget(self.label_command, 2, 0)
-        layout.addWidget(self.lineedit_command, 3, 0)
-        layout.addWidget(self.label_open_in_window, 4, 0, Qt.AlignLeft)
-        layout.addWidget(self.checkbox_open_in_window, 4, 0, Qt.AlignRight)
-        layout.addWidget(self.button_set_shortcut, 5, 0)
-        layout.addWidget(self.listwidget_shortcuts, 6, 0)
-        layout.addWidget(self.button_delete_shortcut, 7, 0)
-        layout.setSpacing(10) # Adjust the spacing between the widgets
-
         self.setLayout(layout)
-
 
     def set_shortcut(self):
         keys = self.lineedit_keys.text()
