@@ -48,7 +48,7 @@ class ShortcutEditor(QWidget):
         self.lineedit_keys = QLineEdit()
         self.label_command = QLabel("Command:")
         self.lineedit_command = QLineEdit()
-        self.label_open_in_window = QLabel("Open in Window:")
+        self.label_open_in_window = QLabel("Window Patch (experimental):")
         self.checkbox_open_in_window = QCheckBox()
         self.button_set_shortcut = QPushButton("Set Shortcut")
         self.button_set_shortcut.clicked.connect(self.set_shortcut)
