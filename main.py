@@ -100,7 +100,7 @@ class ShortcutEditor(QWidget):
     def list_shortcuts(self):
         self.listwidget_shortcuts.clear()
         for keys, command, open_in_window in self.shortcut_manager.shortcuts:
-            item = QListWidgetItem(f"{keys} -> {command} {'[Open in Window]' if open_in_window else ''}")
+            item = QListWidgetItem(f"{keys} -> {command} {'[WindowPatch]' if open_in_window else ''}")
             self.listwidget_shortcuts.addItem(item)
 
 
