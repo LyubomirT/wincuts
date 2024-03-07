@@ -1,9 +1,10 @@
 import sys
 import csv
 import datetime
+import subprocess
+import argparse
 from PySide2.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu, QAction, QLabel, QLineEdit, QPushButton, QListWidget, QListWidgetItem, QMessageBox, QVBoxLayout, QWidget, QCheckBox, QHBoxLayout
 from PySide2.QtGui import QIcon
-import subprocess
 from keyboard import add_hotkey, remove_hotkey
 
 class ShortcutManager:
@@ -181,8 +182,16 @@ class MainWindow(QMainWindow):
         return execute
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Shortcut Manager')
+    parser.add_argument('-litr', action='store_true', help='Start the app in tray mode')
+    args = parser.parse_args()
+
     app = QApplication(sys.argv)
     shortcut_manager = ShortcutManager()
     window = MainWindow(shortcut_manager)
     window.show()
+
+    if args.litr:
+        window.hide()  # Hide the window if started in tray mode
+
     sys.exit(app.exec_())
