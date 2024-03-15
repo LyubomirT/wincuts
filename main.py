@@ -89,6 +89,21 @@ class ShortcutEditor(QWidget):
         if keys.strip() == "" or command.strip() == "":
             QMessageBox.critical(self, "Error", "Please enter keys and command.")
             return
+        # Make sure the shortcut is not already in use
+        for k, c, _ in self.shortcut_manager.shortcuts:
+            if k == keys:
+                QMessageBox.critical(self, "Error", "Shortcut already in use.")
+                return
+        
+        # Make sure the shortcut format is valid
+        try:
+            add_hotkey(keys, lambda: None)  # Try to add the hotkey
+            remove_hotkey(keys)  # Remove the hotkey
+        except ValueError:
+            QMessageBox.critical(self, "Error", "Invalid shortcut format.")
+            return
+        except KeyError:
+            pass  # No need to remove the hotkey if it wasn't added
 
         # Add the shortcut
         self.shortcut_manager.add_shortcut(keys, command, open_in_window)
