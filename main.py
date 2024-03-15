@@ -114,8 +114,11 @@ class ShortcutEditor(QWidget):
         selected_item = self.listwidget_shortcuts.currentItem()
         if selected_item:
             index = self.listwidget_shortcuts.row(selected_item)
+            keys, command, open_in_window = self.shortcut_manager.shortcuts[index]
+            remove_hotkey(keys)  # Stop tracking the deleted shortcut
             self.shortcut_manager.delete_shortcut(index)
             self.list_shortcuts()
+
 
     def list_shortcuts(self):
         self.listwidget_shortcuts.clear()
