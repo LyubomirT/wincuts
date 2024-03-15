@@ -6,6 +6,10 @@ import argparse
 from PySide2.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu, QAction, QLabel, QLineEdit, QPushButton, QListWidget, QListWidgetItem, QMessageBox, QVBoxLayout, QWidget, QCheckBox, QHBoxLayout
 from PySide2.QtGui import QIcon
 from keyboard import add_hotkey, remove_hotkey
+import ctypes
+
+appid = 'lyubomirt.wincuts.base.v1.0.0'  # Arbitrary
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(appid)
 
 class ShortcutManager:
     def __init__(self):
@@ -115,6 +119,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Shortcut Manager")
         self.setMinimumSize(400, 300)  # Minimum size restriction
         self.resize(400, 300)  # Default size
+        self.setWindowIcon(QIcon("logo.png"))
 
         # Create a system tray icon
         self.tray_icon = QSystemTrayIcon(self)
