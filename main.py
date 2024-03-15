@@ -100,7 +100,7 @@ class ShortcutEditor(QWidget):
             add_hotkey(keys, lambda: None)  # Try to add the hotkey
             remove_hotkey(keys)  # Remove the hotkey
         except ValueError:
-            QMessageBox.critical(self, "Error", "Invalid shortcut format.")
+            QMessageBox.critical(self, "Error", "Invalid shortcut format. You need to write correct key names separated by '+' without spaces.\nExample: Ctrl+Shift+T")
             return
         except KeyError:
             pass  # No need to remove the hotkey if it wasn't added
