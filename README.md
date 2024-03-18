@@ -8,40 +8,15 @@ As of now, WinCuts lets you set up custom keyboard shortcuts for running shell/c
 
 ## Get WinCuts
 
-### For Windows
+Go to the [Releases](https://github.com/LyubomirT/wincuts/releases) page and download the latest version of the app. Afterwards, simply extract the contents of the archive and run the `wincuts.exe` file.
 
-Go to the [Releases](https://github.com/LyubomirT/wincuts/releases) page and download the latest version of WinCuts, typically we have a .zip file with all the binaries inside. Additionally, if you want full system-wide integration, you can install WinCuts using the provided installers.
+Afterwards, it's recommended to go to the `integration` folder and run the `integration.exe` file. This will let WinCuts launch at startup and will make it easier to use.
 
-### For Linux
+### Uninstalling
 
-Well, it's called `Win`Cuts for a reason (Windows-Cuts), but if you're ready to risk it, you can try running the source code downloaded either using a `.zip` file or by cloning the repository. **HOWEVER** I'm already planning to add switches for the tool to work on Linux (and probably Mac), so stay tuned.
+No, you shouldn't just Shift+Delete the folder. Instead, you should go to the `integration` folder and run the `cleanup.exe` file. This will remove the startup integration and will make sure that nothing is left behind.
 
-### For Mac
-
-Same as for Linux, but with a higher risk of not working at all.
-
-### For Git
-
-You can always clone the repository and build the project yourself, this is the recommennded way if you want to modify something before actually using the tool.
-
-Specifically:
-
-```bash
-git clone https://github.com/LyubomirT/wincuts.git
-cd wincuts
-```
-
-```bash
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-```
-
-```bash
-python wincuts.py
-```
-
-Tada! The app should be running if you've followed the steps correctly.
+Then you can delete the folder.
 
 ## Quickstart
 
@@ -56,4 +31,28 @@ Of course, many of us would like to have these shortcuts running in the backgrou
 
 Also, you can restore the window by clicking `Open` from the same menu.
 
-### 
+### I don't want to run the app every time I start my PC
+
+You should check out the [Get WinCuts](#get-wincuts) section and run the `integration.exe` file. This will make sure that WinCuts starts with your PC and you don't have to worry about it. It also makes sure that the app starts in the system tray without you having to do anything.
+
+### Deleting a shortcut
+
+That's not hard at all. Simply click the shortcut you want to delete and press the `Delete` button below the list. The shortcut will be removed and you won't be able to use it anymore. If you want to add it again, you'll have to do it manually.
+
+## License
+
+WinCuts is licensed under the BSD 3-Clause License. You can find the full license text in the `LICENSE` file in the root of the repository.
+
+If you don't want to see that legal mumbo-jumbo, here's a quick summary:
+
+- You can use WinCuts for whatever you want, as long as you don't claim that you made it and give credit to the original author.
+- The author is not responsible for any damage caused by the software.
+- You can't use the author's name to promote your own version of the software without permission.
+
+## Contributing
+
+Much appreciated! If you want to contribute, you can do so by forking the repository, making your changes and then creating a pull request. If you're not sure about something, you can always open a Discussion and ask for help.
+
+## Support
+
+If you need help with something, you can open a Discussion and ask for help. If you think you've found a bug, you can open an Issue and report it. If you want to suggest a feature, you can open a Discussion and suggest it.
