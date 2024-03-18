@@ -56,3 +56,5 @@ Much appreciated! If you want to contribute, you can do so by forking the reposi
 ## Support
 
 If you need help with something, you can open a Discussion and ask for help. If you think you've found a bug, you can open an Issue and report it. If you want to suggest a feature, you can open a Discussion and suggest it.
+
+Alternatively, you can try contacting me at Discord (`@lyubomirt`) or by email (`ternavski103@gmail.com`). I'll try to respond as soon as possible. 
