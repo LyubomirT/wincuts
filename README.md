@@ -14,7 +14,7 @@ Afterwards, it's recommended to go to the `integration` folder and run the `inte
 
 ### Uninstalling
 
-No, you shouldn't just Shift+Delete the folder. Instead, you should go to the `integration` folder and run the `cleanup.exe` file. This will remove the startup integration and will make sure that nothing is left behind.
+No, you shouldn't just Shift+Delete the folder. Instead, you should go to the `integration` folder and run the `cleanup.exe` file. This will remove the startup integration and will make sure that nothing is left behind. Additionally, make sure to close the app (FROM THE SYSTEM TRAY) before running the cleanup.
 
 Then you can delete the folder.
 
