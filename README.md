@@ -6,6 +6,8 @@ WinCuts is a Windows-native tool for easily setting up and managing custom keybo
 
 As of now, WinCuts lets you set up custom keyboard shortcuts for running shell/cmd commands that get launched whenever the shortcut is activated. It's useful if you need to launch specific commands frequently and want to save time by using a keyboard shortcut instead of typing the command every single time.
 
+What's also cool is that none of the shortcuts will go deep enough in your system to cause any damage. They're all running in the context of the user and are limited to the user's permissions. And, of course, the shortcuts are only active within the app and hence won't interfere with any other shortcuts you might have set up (basically, you can't accidentally override a system shortcut).
+
 ## Get WinCuts
 
 Go to the [Releases](https://github.com/LyubomirT/wincuts/releases) page and download the latest version of the app. Afterwards, simply extract the contents of the archive and run the `wincuts.exe` file.
