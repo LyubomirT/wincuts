@@ -10,7 +10,7 @@ As of now, WinCuts lets you set up custom keyboard shortcuts for running shell/c
 
 Go to the [Releases](https://github.com/LyubomirT/wincuts/releases) page and download the latest version of the app. Afterwards, simply extract the contents of the archive and run the `wincuts.exe` file.
 
-Afterwards, it's recommended to go to the `integration` folder and run the `integration.exe` file. This will let WinCuts launch at startup and will make it easier to use.
+When the extraction is complete, it's recommended to go to the `integration` folder and run the `integration.exe` file. This will let WinCuts launch at startup and will make it easier to use.
 
 ### Uninstalling
 
