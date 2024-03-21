@@ -33,9 +33,11 @@ class ShortcutManager:
 
     def add_shortcut(self, keys, command, open_in_window):
         self.shortcuts.append([keys, command, open_in_window])
+        self.save_shortcuts("validated.dat")  # Save shortcuts after adding
 
     def delete_shortcut(self, index):
         del self.shortcuts[index]
+        self.save_shortcuts("validated.dat")  # Save shortcuts after deleting
 
 class ShortcutEditor(QWidget):
     def __init__(self, shortcut_manager, main_window):
@@ -174,7 +176,6 @@ class MainWindow(QMainWindow):
         self.hide()
 
     def quit(self):
-        self.shortcut_manager.save_shortcuts("validated.dat")
         QApplication.quit()
 
     def execute_command(self, command, open_in_window):
