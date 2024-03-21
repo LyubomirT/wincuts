@@ -1,6 +1,6 @@
 # WinCuts
 
-WinCuts is a Windows-native tool for easily setting up and managing custom keyboard shortcuts. It's designed for usage simplicity and is aimed at anyone who wants to save time and increase productivity by using keyboard shortcuts. 
+WinCuts is a Windows-native (via Qt) tool for easily setting up and managing custom keyboard shortcuts. It's designed for usage simplicity and is aimed at anyone who wants to save time and increase productivity by using keyboard shortcuts. 
 
 ## How it works
 
