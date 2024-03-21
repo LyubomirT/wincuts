@@ -1,3 +1,3 @@
-special-vendored-path/* linguist-vendored
+pages/* linguist-vendored
 HTML linguist-vendored=false
 CSS linguist-vendored=false
