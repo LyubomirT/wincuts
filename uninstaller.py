@@ -2,6 +2,7 @@ from PySide2.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QPushButto
 import os
 import sys
 import shutil
+import subprocess
 
 class UninstallerWindow(QMainWindow):
     def __init__(self):
@@ -28,8 +29,19 @@ class UninstallerWindow(QMainWindow):
         self.layout.addWidget(self.closeButton)
 
     def confirmUninstallation(self):
+        if self.isAppRunning("wincuts.exe"):
+            reply = QMessageBox.question(self, 'Application is running',
+                                         "Wincuts is still running. It must be closed before uninstallation can proceed. Do you want to close it now?",
+                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+
+            if reply == QMessageBox.Yes:
+                self.terminateApp("wincuts.exe")  # close the app
+            else:
+                self.infoText.append("Please close Wincuts manually before proceeding.")
+                return
+
         reply = QMessageBox.question(self, 'Confirmation',
-                                     "Are you sure you want to uninstall the application? This action cannot be undone.",
+                                     "Are you sure you want to uninstall Wincuts? This action cannot be undone.",
                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
         if reply == QMessageBox.Yes:
@@ -37,11 +49,27 @@ class UninstallerWindow(QMainWindow):
         else:
             self.infoText.append("Uninstallation cancelled.")
 
+    def isAppRunning(self, process_name):
+        try:
+            output = subprocess.check_output(f"tasklist | findstr /I {process_name}", shell=True)
+            if process_name in str(output):
+                return True
+        except subprocess.CalledProcessError:
+            return False
+        return False
+
+    def terminateApp(self, process_name):
+        try:
+            subprocess.check_output(f"taskkill /im {process_name} /f", shell=True)
+            self.infoText.append(f"{process_name} has been closed.")
+        except subprocess.CalledProcessError as e:
+            self.infoText.append(f"Failed to close {process_name}. Please close it manually.")
+
     def startUninstallation(self):
         self.uninstallButton.setEnabled(False)
         self.infoText.append("Starting uninstallation...")
 
-        # set the folder path
+        # Set the folder path
         folder_path = os.path.dirname(os.path.abspath(sys.argv[0]))
 
         # Remove the folder and its contents
