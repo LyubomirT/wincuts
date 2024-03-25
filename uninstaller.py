@@ -29,10 +29,6 @@ class UninstallerWindow(QMainWindow):
         self.closeButton.clicked.connect(self.closeApplication)
         self.layout.addWidget(self.closeButton)
 
-        #tell the user the location of the file that will be deleteda
-        self.infoText.append(os.path.dirname(os.path.abspath(sys.argv[0])))
-        self.infoText.append(os.path.abspath(__file__))
-
     def confirmUninstallation(self):
         # First, show what will be deleted
         folder_path = os.path.dirname(os.path.abspath(sys.argv[0]))
